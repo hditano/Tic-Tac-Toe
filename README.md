@@ -1,4 +1,4 @@
 [x] Create Gameboard
 [] Create displayController
-[] Create Players
+[X] Create Players
 [] Create GameFlow

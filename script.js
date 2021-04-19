@@ -18,8 +18,14 @@ const gameBoard = (() => {
 // displayController (To render)
 
 const displayController = (() => {
+  const para = document.querySelector('.test');
 
-})
+  const renderHtml = (content) => {
+    para.textContent = content;
+  }
+
+  return {renderHtml};
+})();
 
 // Players Setup
 
@@ -27,4 +33,6 @@ const player = (name) => {
 
   return { name };
 }
+
+displayController.renderHtml(gameBoard.getBoardIndex(2));
 
