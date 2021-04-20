@@ -1,7 +1,7 @@
 // Main GameBoard
 
 const gameBoard = (() => {
-  let board = ["X", "X", "X", "X", "O", "O", "O", "O", "O"];
+  let board = ["", "", "", "", "", "", "", "", ""];
 
   const getBoardIndex = (choice) => {
     return board[choice];
@@ -20,8 +20,9 @@ const gameBoard = (() => {
 const displayController = (() => {
   const renderHtml = () => {
     let fixedDiv = document.querySelector(".board");
-    gameBoard.board.forEach((element) => {
+    gameBoard.board.forEach((element, index) => {
       let tempPara = document.createElement("p");
+      tempPara.setAttribute("data-id", index);
       let tempNode = document.createTextNode(element);
       tempPara.classList.add("item-box");
       tempPara.appendChild(tempNode);
@@ -30,9 +31,10 @@ const displayController = (() => {
   };
 
   const itemSelection = () => {
-    document.querySelectorAll('.item-box').forEach(element => {
-      element.addEventListener('click', (e) => {
-        console.log(e.target.textContent);
+    document.querySelectorAll(".item-box").forEach((element) => {
+      element.addEventListener("click", (e) => {
+        let dataID = element.getAttribute("data-id");
+        gameBoard.setBoard(dataID, dataID);
       });
     });
   };
