@@ -20,8 +20,16 @@ const gameBoard = (() => {
 const displayController = (() => {
   const para = document.querySelector('.test');
 
-  const renderHtml = (content) => {
-    para.textContent = content;
+  const renderHtml = () => {
+    let fixedDiv = document.querySelector('.board');
+    gameBoard.board.forEach(element => {
+      let tempPara = document.createElement('p');
+      let tempNode = document.createTextNode(element);
+      tempPara.classList.add('item-box');
+      tempPara.appendChild(tempNode);
+      fixedDiv.appendChild(tempPara);
+      
+    });
   }
 
   return {renderHtml};

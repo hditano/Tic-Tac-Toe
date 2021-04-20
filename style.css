@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+.main-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  background-color: rgba(133, 129, 129, 0.616);
+  border: 1px solid grey;
+}
+
+.game-board {
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  padding: 0px;
+  margin: 0px;
+  width: 600px;
+  height: 555px;
+  flex-wrap: wrap;
+}
+
+.item-box {
+  flex: 1 1 195px;
+  background-color: gold;
+  width: 100px;
+  height: 180px;
+  border: 1px solid red;
+  margin: 2px 2px;
+
+  line-height: 200px;
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+}
