@@ -21,77 +21,100 @@ const player = (name) => {
   return { name };
 };
 
-const player1 = player("Hernan");
-const player2 = player("Sebastian");
-
 // displayController (To render)
 
 const displayController = (() => {
-  const renderHtml = () => {
-    let fixedDiv = document.querySelector(".board");
-    gameBoard.board.forEach((element, index) => {
-      let tempPara = document.createElement("p");
-      tempPara.setAttribute("data-id", index);
-      let tempNode = document.createTextNode(element);
-      tempPara.classList.add("item-box");
-      tempPara.appendChild(tempNode);
-      fixedDiv.appendChild(tempPara);
+
+  const itemSelection = (currentPlayer) => {
+    document.addEventListener("click", (e) => {
+      if (e.target.matches(".item-box")) {
+        let dataID = e.target.dataset.id;
+        playGame.renderBox(currentPlayer, e.target);
+        gameBoard.setBoard(dataID, dataID);
+        playGame.switchPlayer();
+      }
     });
-    gameFlow.playerTurn(player1);
   };
 
-  const renderBox = (playerName, target) => {
-    playerName === player1
-      ? (target.textContent = "X")
-      : (target.textContent = "O");
-  };
-
-    const itemSelection = (playerName) => {
-      document.querySelectorAll('.item-box').forEach(element => {
-        element.addEventListener('click', e => {
-          e.preventDefault();
-          console.log(e.target.dataset.id);
-          let dataID = e.target.dataset.id;
-          renderBox(playerName, element);
-          gameBoard.setBoard(dataID, dataID);
-          gameFlow.playerMoves(playerName, dataID);
-        })
-      })
-    }
-
-  return { renderHtml, renderBox, itemSelection };
+  return { itemSelection };
 })();
 
 // game flow
 
-const gameFlow = (() => {
+// const gameFlow = (() => {
 
-  const winingComb = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+//   const winingComb = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8],
+//     [0, 3, 6],
+//     [1, 4, 7],
+//     [2, 5, 8],
+//     [0, 4, 8],
+//     [2, 4, 6],
+//   ];
 
-  let arrayP1 = [];
-  let arrayP2 = [];
+//   let arrayP1 = [];
+//   let arrayP2 = [];
 
-  const playerMoves = (playerName, dataID) => {
+//   const checkWinner = () => {
 
-    (playerName === player1) ? arrayP1.splice(dataID, 0, dataID) : arrayP2.splice(dataID, 0, dataID);
-    console.log(arrayP1, arrayP2)
+//   };
+
+//   return {  };
+// })();
+
+const playGame = (() => {
+  const playerOne = {
+    Name: "Hernan",
+    Moves: [],
+  };
+  const playerTwo = {
+    Name: "Sebastian",
+    Moves: [],
   };
 
-  const playerTurn = (statusPlayer) => {
-    statusPlayer == player1 ? displayController.itemSelection(player1) : displayController.itemSelection(player2);
+  let currentPlayer;
+  let player1;
+  let player2;
+  currentPlayer = player1;
+
+  // const renderHtml = () => {
+  //   let fixedDiv = document.querySelector(".board");
+  //   gameBoard.board.forEach((element, index) => {
+  //     let tempPara = document.createElement("p");
+  //     tempPara.setAttribute("data-id", index);
+  //     let tempNode = document.createTextNode(element);
+  //     tempPara.classList.add("item-box");
+  //     tempPara.appendChild(tempNode);
+  //     fixedDiv.appendChild(tempPara);
+  //   });
+  //   playerTurn(playerOne);
+  // };
+
+  const renderHtml = () => {
+    let div = document.querySelector('.board');
+    for(let i = 0; i < gameBoard.board.length; i++) {
+      let para = document.createElement('p');
+      let tempNode = document.createTextNode(gameBoard.board[i]);
+      para.setAttribute('data-id', '2');
+      para.classList.add('item-box');
+      para.appendChild(tempNode);
+      div.appendChild(para);
+
+    }
+    displayController.itemSelection(currentPlayer);
+  }
+
+  const renderBox = (currentPlayer,target) => {
+    currentPlayer === player1 ? target.textContent = 'X' : target.textContent = 'O';
   };
 
-  return { playerTurn, playerMoves };
+
+  const switchPlayer = () => {
+    currentPlayer === playerOne ? currentPlayer === player2 : currentPlayer === player1;
+  };
+
+  renderHtml();
+  return { renderBox, switchPlayer };
 })();
-
-
-displayController.renderHtml();
