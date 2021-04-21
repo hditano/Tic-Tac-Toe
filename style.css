@@ -2,13 +2,13 @@
   box-sizing: border-box;
 }
 
-.main-title {
+.main-title, .log {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.title {
+.title, .log {
   background-color: rgba(133, 129, 129, 0.616);
   border: 1px solid grey;
 }
@@ -43,4 +43,10 @@
   font-weight: bold;
   font-size: 2em;
   text-align: center;
+}
+
+.main-log {
+  display: flex;
+  justify-content: center;
+
 }

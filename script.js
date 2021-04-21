@@ -15,6 +15,15 @@ const gameBoard = (() => {
   return { board, getBoardIndex, setBoard };
 })();
 
+// Player Setup
+
+const player = (name) => {
+  return { name };
+};
+
+const player1 = player("Hernan");
+const player2 = player("Sebastian");
+
 // displayController (To render)
 
 const displayController = (() => {
@@ -28,24 +37,34 @@ const displayController = (() => {
       tempPara.appendChild(tempNode);
       fixedDiv.appendChild(tempPara);
     });
+    gameFlow.playerTurn(player1);
   };
 
-  const itemSelection = () => {
-    document.querySelectorAll(".item-box").forEach((element) => {
-      element.addEventListener("click", (e) => {
-        let dataID = element.getAttribute("data-id");
-        gameBoard.setBoard(dataID, dataID);
-      });
-    });
+  const renderBox = (playerName, target) => {
+    playerName === player1
+      ? (target.textContent = "X")
+      : (target.textContent = "O");
   };
 
-  return { renderHtml, itemSelection };
+    const itemSelection = (playerName) => {
+      document.querySelectorAll('.item-box').forEach(element => {
+        element.addEventListener('click', e => {
+          e.preventDefault();
+          console.log(e.target.dataset.id);
+          let dataID = e.target.dataset.id;
+          renderBox(playerName, element);
+          gameBoard.setBoard(dataID, dataID);
+          gameFlow.playerMoves(playerName, dataID);
+        })
+      })
+    }
+
+  return { renderHtml, renderBox, itemSelection };
 })();
 
 // game flow
 
 const gameFlow = (() => {
-  let counterRound = 0;
 
   const winingComb = [
     [0, 1, 2],
@@ -58,18 +77,21 @@ const gameFlow = (() => {
     [2, 4, 6],
   ];
 
-  const playerTurn = () => {
-    displayController.renderHtml(gameBoard.setBoard(1, "F"));
+  let arrayP1 = [];
+  let arrayP2 = [];
+
+  const playerMoves = (playerName, dataID) => {
+
+    (playerName === player1) ? arrayP1.splice(dataID, 0, dataID) : arrayP2.splice(dataID, 0, dataID);
+    console.log(arrayP1, arrayP2)
   };
 
-  return { playerTurn };
+  const playerTurn = (statusPlayer) => {
+    statusPlayer == player1 ? displayController.itemSelection(player1) : displayController.itemSelection(player2);
+  };
+
+  return { playerTurn, playerMoves };
 })();
 
-// Players Setup
-
-const player = (name) => {
-  return { name };
-};
 
 displayController.renderHtml();
-displayController.itemSelection();
