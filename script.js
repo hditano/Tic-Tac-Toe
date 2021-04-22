@@ -3,16 +3,12 @@
 const gameBoard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
-  const getBoardIndex = (choice) => {
-    return board[choice];
-  };
-
   const setBoard = (index, choice) => {
     board.splice(index, 1, choice);
     return board;
   };
 
-  return { board, getBoardIndex, setBoard };
+  return { board, setBoard };
 })();
 
 // Player Setup
@@ -25,12 +21,13 @@ const player = (name) => {
 
 const displayController = (() => {
 
-  const itemSelection = (currentPlayer) => {
+  const itemSelection = () => {
     document.addEventListener("click", (e) => {
       if (e.target.matches(".item-box")) {
         let dataID = e.target.dataset.id;
-        playGame.renderBox(currentPlayer, e.target);
+        playGame.renderBox(e.target);
         gameBoard.setBoard(dataID, dataID);
+        playGame.playerMoves(dataID);
         playGame.switchPlayer();
       }
     });
@@ -68,53 +65,45 @@ const playGame = (() => {
   const playerOne = {
     Name: "Hernan",
     Moves: [],
+    Markings: 'X',
   };
   const playerTwo = {
     Name: "Sebastian",
     Moves: [],
+    Markings: 'O',
   };
 
   let currentPlayer;
-  let player1;
-  let player2;
-  currentPlayer = player1;
-
-  // const renderHtml = () => {
-  //   let fixedDiv = document.querySelector(".board");
-  //   gameBoard.board.forEach((element, index) => {
-  //     let tempPara = document.createElement("p");
-  //     tempPara.setAttribute("data-id", index);
-  //     let tempNode = document.createTextNode(element);
-  //     tempPara.classList.add("item-box");
-  //     tempPara.appendChild(tempNode);
-  //     fixedDiv.appendChild(tempPara);
-  //   });
-  //   playerTurn(playerOne);
-  // };
+  currentPlayer = playerOne;
 
   const renderHtml = () => {
     let div = document.querySelector('.board');
     for(let i = 0; i < gameBoard.board.length; i++) {
       let para = document.createElement('p');
       let tempNode = document.createTextNode(gameBoard.board[i]);
-      para.setAttribute('data-id', '2');
+      para.setAttribute('data-id', i);
       para.classList.add('item-box');
       para.appendChild(tempNode);
       div.appendChild(para);
 
     }
-    displayController.itemSelection(currentPlayer);
   }
 
-  const renderBox = (currentPlayer,target) => {
-    currentPlayer === player1 ? target.textContent = 'X' : target.textContent = 'O';
+  const renderBox = (target) => {
+    (currentPlayer === playerOne) ? target.textContent = playerOne.Markings : target.textContent = playerTwo.Markings;
   };
 
+  const playerMoves = (dataID) => {
+    (currentPlayer === playerOne) ? playerOne.Moves.push(dataID) : playerTwo.Moves.push(dataID);
+    console.log('playerOne', playerOne.Moves, "", 'playerTwo', playerTwo.Moves ); 
+  }
 
   const switchPlayer = () => {
-    currentPlayer === playerOne ? currentPlayer === player2 : currentPlayer === player1;
+    (currentPlayer === playerOne) ? currentPlayer = playerTwo : currentPlayer = playerOne;
+    console.log(currentPlayer)
   };
 
   renderHtml();
-  return { renderBox, switchPlayer };
+  displayController.itemSelection(currentPlayer);
+  return { currentPlayer, renderBox, switchPlayer, playerMoves };
 })();
