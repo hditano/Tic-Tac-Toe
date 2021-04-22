@@ -24,6 +24,7 @@ const displayController = (() => {
   const itemSelection = () => {
     document.addEventListener("click", (e) => {
       if (e.target.matches(".item-box")) {
+        if(e.target.textContent !== "") return;
         let dataID = e.target.dataset.id;
         playGame.renderBox(e.target);
         gameBoard.setBoard(dataID, dataID);
@@ -36,30 +37,27 @@ const displayController = (() => {
   return { itemSelection };
 })();
 
-// game flow
 
-// const gameFlow = (() => {
+const winningConditions = (() => {
 
-//   const winingComb = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8],
-//     [0, 3, 6],
-//     [1, 4, 7],
-//     [2, 5, 8],
-//     [0, 4, 8],
-//     [2, 4, 6],
-//   ];
+  const winingComb = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
-//   let arrayP1 = [];
-//   let arrayP2 = [];
 
-//   const checkWinner = () => {
+  const checkWinner = () => {
 
-//   };
+  };
 
-//   return {  };
-// })();
+  return {  };
+})();
 
 const playGame = (() => {
   const playerOne = {
