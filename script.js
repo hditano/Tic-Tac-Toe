@@ -1,5 +1,4 @@
 // Main GameBoard
-
 const gameBoard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -12,30 +11,6 @@ const gameBoard = (() => {
 })();
 
 // Player Setup
-
-const player = (name) => {
-  return { name };
-};
-
-// displayController (To render)
-
-const displayController = (() => {
-  const itemSelection = () => {
-    document.addEventListener("click", (e) => {
-      if (e.target.matches(".item-box")) {
-        if (e.target.textContent !== "") return;
-        let dataID = e.target.dataset.id;
-        playGame.renderBox(e.target);
-        gameBoard.setBoard(dataID, dataID);
-        playGame.playerMoves(dataID);
-        winningConditions.checkWinner();
-        playGame.switchPlayer();
-      }
-    });
-  };
-
-  return { itemSelection };
-})();
 
   const winningConditions = (() => {
     const winingComb = [
@@ -80,19 +55,35 @@ const displayController = (() => {
 })();
 
 const playGame = (() => {
-  const playerOne = {
+  let playerOne = {
     Name: "Hernan",
     Moves: [],
     Markings: "X",
+    Turn: 0,
   };
-  const playerTwo = {
+  let playerTwo = {
     Name: "Sebastian",
     Moves: [],
     Markings: "O",
+    Turn: 1,
   };
 
-  let currentPlayer;
-  currentPlayer = playerOne;
+  let currentPlayer = playerOne;
+
+  const itemSelection = () => {
+    document.addEventListener("click", (e) => {
+      if (e.target.matches(".item-box")) {
+        if (e.target.textContent !== "") return;
+        let dataID = e.target.dataset.id;
+        renderBox(e.target);
+        gameBoard.setBoard(dataID, dataID);
+        playerMoves(dataID);
+        console.log(currentPlayer);
+        winningConditions.checkWinner();
+        switchPlayer();
+      }
+    });
+  };
 
   const renderHtml = () => {
     let div = document.querySelector(".board");
@@ -120,18 +111,19 @@ const playGame = (() => {
   };
 
   const switchPlayer = () => {
-    currentPlayer === playerOne
-      ? (currentPlayer = playerTwo)
-      : (currentPlayer = playerOne);
+    (currentPlayer === playerOne)
+      ? currentPlayer = playerTwo
+      : currentPlayer = playerOne;
     console.log(currentPlayer);
   };
 
   renderHtml();
-  displayController.itemSelection(currentPlayer);
+  itemSelection(currentPlayer);
   return {
     playerOne,
     playerTwo,
     currentPlayer,
+    itemSelection,
     renderBox,
     switchPlayer,
     playerMoves,
