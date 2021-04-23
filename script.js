@@ -59,11 +59,21 @@ const displayController = (() => {
           return playGame.currentPlayer.Moves.indexOf(val) !== -1;
         });
         if(check) {
-          console.log('its true by:', playGame.currentPlayer)
+          let mainDiv = document.querySelector('.board');
+          let div = document.createElement('div');
+          div.classList.add('winner');
+          div.style.display = 'flex';
+          let para = document.createElement('p');
+          let tempNode = document.createTextNode('Hernan Won!!');
+          para.appendChild(tempNode);
+          para.classList.add('winner-text');
+          div.appendChild(para);
+          mainDiv.appendChild(div);
+          
+
         }
 
       }
-    console.log('current player array', playGame.currentPlayer.Moves, 'typeof', typeof winingComb);
   };
 
   return { checkWinner };
