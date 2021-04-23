@@ -56,13 +56,15 @@ const winningConditions = (() => {
 
   const checkWinner = () => {
 
-    let array1 = [2,4,6];
+    let array1 = [2,4,4,3,2,6];
 
     for(let i = 0; i < winingComb.length; i++) {
-    let check = array1.every((val) => winingComb[i].includes(val));
-
+    let check = winingComb[i].every(function (val) {
+      return array1.indexOf(val) !== -1;
+    })
     console.log(check);
-    }
+  }
+
   };
 
   return { checkWinner };
