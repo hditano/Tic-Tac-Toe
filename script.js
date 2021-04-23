@@ -8,6 +8,7 @@ const gameBoard = (() => {
     return board;
   };
 
+
   return { board, setBoard };
 })();
 
@@ -29,6 +30,7 @@ const displayController = (() => {
         playGame.renderBox(e.target);
         gameBoard.setBoard(dataID, dataID);
         playGame.playerMoves(dataID);
+        winningConditions.checkWinner();
         playGame.switchPlayer();
       }
     });
@@ -54,9 +56,16 @@ const winningConditions = (() => {
 
   const checkWinner = () => {
 
+    let array1 = [2,4,6];
+
+    for(let i = 0; i < winingComb.length; i++) {
+    let check = array1.every((val) => winingComb[i].includes(val));
+
+    console.log(check);
+    }
   };
 
-  return {  };
+  return { checkWinner };
 })();
 
 const playGame = (() => {
@@ -103,5 +112,6 @@ const playGame = (() => {
 
   renderHtml();
   displayController.itemSelection(currentPlayer);
+  winningConditions.checkWinner();
   return { currentPlayer, renderBox, switchPlayer, playerMoves };
 })();
